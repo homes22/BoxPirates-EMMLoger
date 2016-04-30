@@ -1,3 +1,3 @@
 # BoxPirates-EMMLoger
-Enigma2 Plugin Log EMM via Card Serial V(1.5)
+Enigma2 Plugin Log EMM via Card Serial v(1.5)
 
