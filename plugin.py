@@ -19,7 +19,7 @@ config.plugins.emmlog.emmlog_timeout = ConfigInteger(10, limits=(1, 180))
 config.plugins.emmlog.popup = ConfigYesNo(default=False)
 
 class emmlog(ConfigListScreen, Screen):
-    skin = """<screen position="100,100" size="560,320" title="EMMLog (v1.5)" >
+    skin = """<screen position="100,100" size="560,320" title="EMMLog (v1.6)" >
 	<widget name="text" position="5,50" zPosition="2" size="520,60" font="Regular;20" />
 	<ePixmap pixmap="skin_default/buttons/red.png" position="0,0" size="140,40" alphatest="on" />
 	<ePixmap pixmap="skin_default/buttons/green.png" position="140,0" size="140,40" alphatest="on" />
