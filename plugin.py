@@ -95,6 +95,7 @@ class emmlog(ConfigListScreen, Screen):
 		com = config.plugins.emmlog.serial.value
 		system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/log.sh')
 		system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/logstatus.sh')
+		system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh')
 		script = '/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/logstatus.sh'
 		self.session.open(Console, _('emmlog: %s') % dom, [script])
 		
