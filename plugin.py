@@ -152,9 +152,9 @@ class reademm(Screen):
     def okClicked(self):
         try:
             sel = self['list'].getSelectionIndex()
-            addon = self.names[sel]
-            ipk = self.data[sel]
-            system('echo ' + ipk + ' > /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/emm')
+            emmsel = self.names[sel]
+            selemm = self.data[sel]
+            system('echo ' + selemm + ' > /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/emm')
             writeemm = '/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh'
             self.session.open(Console,_('writeemm:'),[writeemm])			
         except:
