@@ -132,7 +132,15 @@ class reademm(Screen):
 
     def openTest(self):
         try:
-            myfile = file('/usr/keys/sky_unique_emm.log')
+            afile = file('/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/log.sh')
+            for aline in afile:
+                a = aline
+                if "EMMLOGFILE=" in a:
+                    b = a.split("=")[1]
+                    b = b.split ("\"")[1]
+            afile.close()
+			
+            myfile = file(b)
             self.data = []
             self.names = []
             icount = 0
