@@ -17,6 +17,9 @@ config.plugins.emmlog = ConfigSubsection()
 config.plugins.emmlog.serial = ConfigText('XXXXXXXX', fixed_size=False)
 config.plugins.emmlog.emmlog_timeout = ConfigInteger(10, limits=(1, 180))
 config.plugins.emmlog.popup = ConfigYesNo(default=False)
+system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/log.sh')
+system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/logstatus.sh')
+system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh')
 
 class emmlog(ConfigListScreen, Screen):
     skin = """<screen position="100,100" size="560,320" title="EMMLog (v1.6)" >
@@ -93,9 +96,6 @@ class emmlog(ConfigListScreen, Screen):
 		system('echo ' + timeout + ' > /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/timeout')
 		dom = config.plugins.emmlog.serial.value
 		com = config.plugins.emmlog.serial.value
-		system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/log.sh')
-		system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/logstatus.sh')
-		system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh')
 		script = '/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/logstatus.sh'
 		self.session.open(Console, _('emmlog: %s') % dom, [script])
 		
