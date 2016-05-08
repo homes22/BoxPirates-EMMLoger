@@ -44,7 +44,11 @@ if [[ $1 == "expire" ]]; then
 	sed -n "/<TR CLASS=\"e_valid\">/,/<\/TABLE>/p" /tmp/webif > /tmp/webif1
 	if [[ $(stat -c %s /tmp/webif1) == "0" ]]; then
 		sed -n "/<TR CLASS=\"e_expired\">/,/<\/TABLE>/p" /tmp/webif > /tmp/webif1
-		echo "... abgelaufen"
+		if [[ $(grep -c "Reader does not exist or is not started!" /tmp/webif) -gt 0 ]]; then
+			echo "Reader existiert nicht oder ist nicht gestartet"
+		else
+			echo "... abgelaufen"
+		fi
 	fi
 	expirecaid=$(cat /tmp/webif1|awk -F '<TD>' '{print $3}'|awk -F '</TD>' '{print $1}')
 	expiretier=$(cat /tmp/webif1|awk -F '<TD>' '{print $5}'|awk -F '</TD>' '{print $1}')
