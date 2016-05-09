@@ -122,7 +122,7 @@ class reademm(Screen):
         self['list'] = MenuList([])
         self['info'] = Label()
         self['actions'] = ActionMap(['OkCancelActions', 'ColorActions'], {'blue': self.okClicked,
-         'ok': self.okClicked,
+         'ok': self.Msgwriteemm,
          'cancel': self.close}, -1)
         self.addon = 'emu'
         self.icount = 0
@@ -130,7 +130,9 @@ class reademm(Screen):
         self.timer.callback.append(self.openTest)
         self.timer.start(100, 1)
 
+		
     def openTest(self):
+        	    
         try:
             afile = file('/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/log.sh')
             for aline in afile:
@@ -158,17 +160,33 @@ class reademm(Screen):
         except:
             pass
 
-    def okClicked(self):
-        try:
-            sel = self['list'].getSelectionIndex()
-            emmsel = self.names[sel]
-            selemm = self.data[sel]
-            system('echo ' + selemm + ' > /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/emm')
-            writeemm = '/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh'
-            self.session.open(Console,_('writeemm:'),[writeemm])			
-        except:
-            pass
+			
 
+			
+    def okClicked(self, result):
+        print "\n[okClicked] checking result\n"
+        if result:
+            try:
+                sel = self['list'].getSelectionIndex()
+                emmsel = self.names[sel]
+                selemm = self.data[sel]
+                system('echo ' + selemm + ' > /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/emm')
+                writeemm = '/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh'
+                self.session.open(Console,_('writeemm:'),[writeemm])			
+            except:
+                pass		    
+        else:
+            print "\n[okClicked] OK pressed\n"
+            self.close(None)
+
+    def Msgwriteemm(self):
+        print "\n[okClicked] OK pressed\n"
+        self.session.openWithCallback(self.okClicked, MessageBox, _("Willst du die EMM wirklich schreiben??"), MessageBox.TYPE_YESNO)
+		
+    def cancel(self):
+        print "\n[okClicked] cancel\n"
+        self.close(None)				
+				
     def keyLeft(self):
         self['text'].left()
 
