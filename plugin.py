@@ -65,7 +65,8 @@ class emmlog(ConfigListScreen, Screen):
 		 'save': self.save,
          'cancel': self.cancel,
          'ok': self.defaults,
-         '1': self.readsemm,}, -2)
+         '1': self.readsemm,
+         '2': self.readexpireddate}, -2)
 
     def save(self):
         for x in self['config'].list:
@@ -121,6 +122,9 @@ class emmlog(ConfigListScreen, Screen):
 	
     def readsemm (self):
         self.session.open(reademm)
+		
+    def readexpireddate (self):
+        self.session.open(Console, _('Expire Date:'), ['echo "Expire Date" && /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh expire'])	
 	
 class reademm(Screen):
 
