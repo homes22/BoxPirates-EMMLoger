@@ -36,7 +36,7 @@ class emmlog(ConfigListScreen, Screen):
 	<widget name="key_yellow" position="280,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
 	<widget name="key_blue" position="420,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
 	<widget name="config" position="20,120" size="520,240" scrollbarMode="showOnDemand" />
-	<widget name="key_ok" position="32,240" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
+	<widget name="key_ok" position="42,240" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
 	<widget name="key_1" position="32,280" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
 	</screen>"""
 
@@ -57,7 +57,7 @@ class emmlog(ConfigListScreen, Screen):
         self['key_yellow'] = Button(_('Stop Log'))
         self['key_blue'] = Button(_('Start Log'))
         self['key_ok'] = Button(_('Load defaults'))
-        self['key_1'] = Button(_('write EMM'))		
+        self['key_1'] = Button(_('Write EMM'))		
         self['setupActions'] = ActionMap(['SetupActions', 'ColorActions', 'NumberActions'], {'green': self.save,
          'red': self.cancel,
          'yellow': self.stoplog,
