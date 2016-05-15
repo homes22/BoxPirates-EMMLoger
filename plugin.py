@@ -30,8 +30,8 @@ class emmlog(ConfigListScreen, Screen):
 	<ePixmap pixmap="skin_default/buttons/yellow.png" position="280,0" size="140,40" alphatest="on" />
 	<ePixmap pixmap="skin_default/buttons/blue.png" position="420,0" size="140,40" alphatest="on" />
 	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_ok.png" position="5,230" size="140,40" alphatest="on" />
-	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_1.png" position="5,270" size="140,40" alphatest="on" />
-	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_2.png" position="5,310" size="140,40" alphatest="on" />
+	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_info.png" position="5,270" size="140,40" alphatest="on" />
+	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_menu.png" position="5,310" size="140,40" alphatest="on" />
 	<widget name="key_red" position="0,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
 	<widget name="key_green" position="140,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
 	<widget name="key_yellow" position="280,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
@@ -68,8 +68,8 @@ class emmlog(ConfigListScreen, Screen):
 		 'save': self.save,
          'cancel': self.cancel,
          'ok': self.defaults,
-         '1': self.readsemm,
-         '2': self.readexpireddate}, -2)
+         'info': self.readsemm,
+         'menu': self.readexpireddate}, -2)
 
     def save(self):
         for x in self['config'].list:
