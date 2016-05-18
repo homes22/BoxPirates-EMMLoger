@@ -8,19 +8,19 @@ if [[ $oscamconfpath == "" ]]; then
 	if [[ $z == "" ]]; then
 		echo "... suche Konfig-Pfad in /usr"
 	fi
-	oscamconfpath=$(find /usr -name "oscam.conf"|xargs dirname)
+	oscamconfpath=$(find /usr -name "oscam.conf" 2>/dev/null|xargs dirname 2>/dev/null)
 fi
 if [[ $oscamconfpath == "" ]]; then
 	if [[ $z == "" ]]; then
 		echo "... suche Konfig-Pfad in /var"
 	fi
-	oscamconfpath=$(find /var -name "oscam.conf"|xargs dirname)
+	oscamconfpath=$(find /var -name "oscam.conf" 2>/dev/null|xargs dirname 2>/dev/null)
 fi
 if [[ $oscamconfpath == "" ]]; then
 	if [[ $z == "" ]]; then
 		echo "... suche Konfig-Pfad in /etc"
 	fi
-	oscamconfpath=$(find /etc -name "oscam.conf"|xargs dirname)
+	oscamconfpath=$(find /etc -name "oscam.conf" 2>/dev/null|xargs dirname 2>/dev/null)
 fi
 }
 

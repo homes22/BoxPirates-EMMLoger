@@ -8,12 +8,12 @@ POPUPFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/popup"
 label=$(cat /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscamlabel)
 
 if [[ $EMMLOGFILE == "" ]]; then
-	oscamconfpath=$(find /usr -name "oscam.conf"|xargs dirname)
+	oscamconfpath=$(find /usr -name "oscam.conf" 2>/dev/null|xargs dirname 2>/dev/null)
 	if [[ $oscamconfpath == "" ]]; then
-		oscamconfpath=$(find /var -name "oscam.conf"|xargs dirname)
+		oscamconfpath=$(find /var -name "oscam.conf" 2>/dev/null|xargs dirname 2>/dev/null)
 	fi
 	if [[ $oscamconfpath == "" ]]; then
-		oscamconfpath=$(find /etc -name "oscam.conf"|xargs dirname)
+		oscamconfpath=$(find /etc -name "oscam.conf" 2>/dev/null|xargs dirname 2>/dev/null)
 	fi
 	logdir=$(grep "emmlogdir" $oscamconfpath/oscam.conf|awk '{ print $3 }')
 	if [[ $logdir == "" ]]; then
@@ -23,7 +23,7 @@ if [[ $EMMLOGFILE == "" ]]; then
 else
 	logfile=$EMMLOGFILE
 fi
-
+echo $logfile
 rm -f /tmp/bp-emm-tmp.log
 a=0
 i=$(cat $SERIALFILE)
