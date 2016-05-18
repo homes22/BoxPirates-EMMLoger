@@ -5,6 +5,25 @@ EMMLOGFILE="" # falls notwendig hier bitte Pfad/Datei zur separaten Log-Datei zw
 SERIALFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/serial"
 TIMEOUTFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/timeout"
 POPUPFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/popup"
+label=$(cat /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscamlabel)
+
+if [[ $EMMLOGFILE == "" ]]; then
+	oscamconfpath=$(find /usr -name "oscam.conf"|xargs dirname)
+	if [[ $oscamconfpath == "" ]]; then
+		oscamconfpath=$(find /var -name "oscam.conf"|xargs dirname)
+	fi
+	if [[ $oscamconfpath == "" ]]; then
+		oscamconfpath=$(find /etc -name "oscam.conf"|xargs dirname)
+	fi
+	logdir=$(grep "emmlogdir" $oscamconfpath/oscam.conf|awk '{ print $3 }')
+	if [[ $logdir == "" ]]; then
+		logdir=$oscamconfpath
+	fi
+	logfile=$logdir"/"$label"_unique_emm.log"
+else
+	logfile=$EMMLOGFILE
+fi
+
 rm -f /tmp/bp-emm-tmp.log
 a=0
 i=$(cat $SERIALFILE)
@@ -23,9 +42,9 @@ do
 		sleep 1
 		timenow=$(date +%s)
 	done
-	egrep -v '^\s*$|^#' /tmp/bp-emm-tmp.log | tr -d " " | tr a-z A-Z | awk 'BEGIN { FIELDWIDTHS = "8 8 3000" } "^8270..41" {now=strftime("%Y/%m/%d %H:%M:%S"); printf "%s   %s00000000   %s%s%s bp-emmlog\n", now, $2, $1, $2, $3}' >> $EMMLOGFILE
+	egrep -v '^\s*$|^#' /tmp/bp-emm-tmp.log | tr -d " " | tr a-z A-Z | awk 'BEGIN { FIELDWIDTHS = "8 8 3000" } "^8270..41" {now=strftime("%Y/%m/%d %H:%M:%S"); printf "%s   %s00000000   %s%s%s bp-emmlog\n", now, $2, $1, $2, $3}' >> $logfile
 	if [ $a -gt 0 ] && [ $p == "True" ]; then
-		lastlog=$(tail -n 1 $EMMLOGFILE)
+		lastlog=$(tail -n 1 $logfile)
 		emm=${lastlog:41:6}
 		wget -O /dev/null -q 'http://127.0.0.1/web/message?text=Ein%20EMM%20wurde%20geloggt\n'$emm'...&type=1&timeout=5'
 	fi
