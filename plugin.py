@@ -1,4 +1,5 @@
 from Plugins.Plugin import PluginDescriptor
+import subprocess
 from os import system
 from Components.ActionMap import ActionMap
 from Components.Label import Label
@@ -137,36 +138,33 @@ class reademm(Screen):
 	<ePixmap pixmap="skin_default/buttons/blue.png" position="550,520" size="140,40" zPosition="-1" alphatest="on" />
 	</screen>"""
 
-
     def __init__(self, session):
         self.skin = reademm.skin
         Screen.__init__(self, session)
         self['key_blue'] = Button(_('schreibe EMM'))
-        self.list = []
-        self['list'] = MenuList([])
-        self['info'] = Label()
-        self['actions'] = ActionMap(['OkCancelActions', 'ColorActions'], {'blue': self.Msgwriteemm,
-         'ok': self.Msgwriteemm,
-         'cancel': self.close}, -1)
-        self.addon = 'emu'
-        self.icount = 0
-        self.timer = eTimer()
-        self.timer.callback.append(self.openTest)
-        self.timer.start(100, 1)
+        a = ['/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh', 'testconf']
+        y = subprocess.check_output(a).strip()
+        if "none" == y:
+            self.close(True)
+        else:    
+            self.list = []
+            self['list'] = MenuList([])
+            self['info'] = Label()
+            self['actions'] = ActionMap(['OkCancelActions', 'ColorActions'], {'blue': self.Msgwriteemm,
+             'ok': self.Msgwriteemm,
+             'cancel': self.close}, -1)
+            self.addon = 'emu'
+            self.icount = 0
+            self.timer = eTimer()
+            self.timer.callback.append(self.openTest)
+            self.timer.start(100, 1)
 
-		
     def openTest(self):
         	    
         try:
-            afile = file('/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/log.sh')
-            for aline in afile:
-                a = aline
-                if "EMMLOGFILE=" in a:
-                    b = a.split("=")[1]
-                    b = b.split ("\"")[1]
-            afile.close()
-			
-            myfile = file(b)
+            a = ['/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh', 'testconf']
+            a = subprocess.check_output(a).strip()
+            myfile = file(a)
             self.data = []
             self.names = []
             icount = 0
@@ -184,9 +182,6 @@ class reademm(Screen):
         except:
             pass
 
-			
-
-			
     def okClicked(self, result):
         print "\n[okClicked] checking result\n"
         if result:

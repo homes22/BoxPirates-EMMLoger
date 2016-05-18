@@ -1,6 +1,7 @@
 #!/bin/sh
 # created by Lizard
-EMMLOGFILE="/usr/keys/sky_unique_emm.log"
+EMMLOGFILE="" # falls notwendig hier bitte Pfad/Datei zur separaten Log-Datei zwischen den Anführungszeichen eingeben (z.B. "/usr/keys/sky_unique_emm.log").
+
 SERIALFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/serial"
 TIMEOUTFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/timeout"
 POPUPFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/popup"
