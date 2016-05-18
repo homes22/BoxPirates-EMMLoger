@@ -24,7 +24,7 @@ system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/logstatu
 system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh')
 
 class emmlog(ConfigListScreen, Screen):
-    skin = """<screen position="100,100" size="560,360" title="EMMLog (v1.6)" >
+    skin = """<screen position="100,100" size="560,360" title="EMMLog (v1.7)" >
 	<widget name="text" position="5,50" zPosition="2" size="520,60" font="Regular;20" />
 	<ePixmap pixmap="skin_default/buttons/red.png" position="0,0" size="140,40" alphatest="on" />
 	<ePixmap pixmap="skin_default/buttons/green.png" position="140,0" size="140,40" alphatest="on" />
