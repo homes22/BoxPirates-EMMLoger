@@ -1,5 +1,6 @@
 from Plugins.Plugin import PluginDescriptor
 import subprocess
+import os
 from os import system
 from Components.ActionMap import ActionMap
 from Components.Label import Label
@@ -22,6 +23,8 @@ config.plugins.emmlog.oscamlabel = ConfigText('SKYV14', fixed_size=False)
 system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/log.sh')
 system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/logstatus.sh')
 system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh')
+if ( not os.path.isfile('/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscamlabel')):
+    system('echo ' + config.plugins.emmlog.oscamlabel.value + ' > /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscamlabel')
 
 class emmlog(ConfigListScreen, Screen):
     skin = """<screen position="100,100" size="560,360" title="EMMLog (v1.7)" >
