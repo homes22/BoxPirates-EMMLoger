@@ -120,3 +120,17 @@ if [[ $z == "testconf" ]]; then
 		nohup wget -O /dev/null -q 'http://127.0.0.1/web/message?text=Logfile%20existiert%20nicht.\n%20Bitte%20Label%20überprüfen.\n%20Falls%20ein%20separates%20Logfile%20angegeben%20wurde,\n%20bitte%20diesen%20Pfad/Datei%20überprüfen.&type=3&timeout=15' >output 2>&1 &
 	fi
 fi
+if [[ $z == "savetest" ]]; then
+	count=0
+	while read line
+	do
+		if [[ $(echo $line|grep "label"|awk '{ print $3 }') == $label ]]; then
+			count=1
+			break
+		fi
+	done < $oscamconfpath/oscam.server
+	if [[ $count == 0 ]]; then 
+		echo "none"
+    	nohup wget -O /dev/null -q 'http://127.0.0.1/web/message?text=Angegebenes%20Label%20existiert%20nicht%20in%20der%20Oscam-Konfig.\nBitte%20Label%20überprüfen.&type=3&timeout=15' >output 2>&1 &
+	fi
+fi

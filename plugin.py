@@ -85,7 +85,7 @@ class emmlog(ConfigListScreen, Screen):
         system('echo ' + config.plugins.emmlog.oscamlabel.value + ' > /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscamlabel')		
         system('echo ' + popup + ' > /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/popup')
         system('echo ' + timeout + ' > /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/timeout')
-
+        system('/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh savetest')
         self.close(True)
 
     def cancel(self):
