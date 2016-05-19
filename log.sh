@@ -23,7 +23,6 @@ if [[ $EMMLOGFILE == "" ]]; then
 else
 	logfile=$EMMLOGFILE
 fi
-echo $logfile
 rm -f /tmp/bp-emm-tmp.log
 a=0
 i=$(cat $SERIALFILE)
