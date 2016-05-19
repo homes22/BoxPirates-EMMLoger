@@ -7,8 +7,14 @@ TIMEOUTFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/timeout"
 POPUPFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/popup"
 label=$(cat /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscamlabel)
 
+if [[ $(grep "oscamconfpath=\"" /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh|cut -d "=" -f2|cut -d " " -f1|tr -d '"') != "" ]]; then
+	oscamconfpath=$(grep "oscamconfpath=\"" /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh|cut -d "=" -f2|cut -d " " -f1|tr -d '"')
+fi
+
 if [[ $EMMLOGFILE == "" ]]; then
-	oscamconfpath=$(find /usr -name "oscam.conf" 2>/dev/null|xargs dirname 2>/dev/null)
+	if [[ $oscamconfpath == "" ]]; then
+		oscamconfpath=$(find /usr -name "oscam.conf" 2>/dev/null|xargs dirname 2>/dev/null)
+	fi
 	if [[ $oscamconfpath == "" ]]; then
 		oscamconfpath=$(find /var -name "oscam.conf" 2>/dev/null|xargs dirname 2>/dev/null)
 	fi
