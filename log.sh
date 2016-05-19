@@ -6,10 +6,8 @@ SERIALFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/serial"
 TIMEOUTFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/timeout"
 POPUPFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/popup"
 label=$(cat /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscamlabel)
-
-if [[ $(grep "oscamconfpath=\"" /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh|cut -d "=" -f2|cut -d " " -f1|tr -d '"') != "" ]]; then
-	oscamconfpath=$(grep "oscamconfpath=\"" /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh|cut -d "=" -f2|cut -d " " -f1|tr -d '"')
-fi
+oscamversion=$(find -L /tmp -name "oscam.version" 2>/dev/null)
+oscamconfpath=$(grep "ConfigDir:" $oscamversion|awk '{ print $2 }')
 
 if [[ $EMMLOGFILE == "" ]]; then
 	if [[ $oscamconfpath == "" ]]; then

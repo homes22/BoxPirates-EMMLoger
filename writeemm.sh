@@ -1,7 +1,7 @@
 #!/bin/sh
 # created by Lizard
-oscamconfpath="" # falls notwendig hier bitte Pfad zu Oscam Konfig zwischen den Anführungszeichen eingeben (z.B. "/var/keys").
-
+oscamversion=$(find -L /tmp -name "oscam.version" 2>/dev/null)
+oscamconfpath=$(grep "ConfigDir:" $oscamversion|awk '{ print $2 }')
 z=$1
 function testoscamconfpath {
 if [[ $oscamconfpath == "" ]]; then
@@ -26,6 +26,11 @@ fi
 
 testoscamconfpath
 if [[ $z == "" ]]; then
+	oscampid=$(grep "PID:" $oscamversion|awk '{ print $2 }')
+	if [[ ! -e /proc/$oscampid ]]; then
+		wget -O /dev/null -q 'http://127.0.0.1/web/message?text=Oscam%20läuft%20nicht,\n%20bitte%20Oscam%20erst%20starten.&type=1&timeout=10'
+		exit
+	fi
 	echo "... Konfig-Pfad = "$oscamconfpath
 fi
 user=$(grep "httpuser" $oscamconfpath/oscam.conf|cut -d "=" -f2|awk '{ print $1 }')
@@ -66,6 +71,11 @@ if [[ $z == "" ]]; then
 	echo ""
 fi
 if [[ $z == "expire" ]]; then
+	oscampid=$(grep "PID:" $oscamversion|awk '{ print $2 }')
+	if [[ ! -e /proc/$oscampid ]]; then
+		wget -O /dev/null -q 'http://127.0.0.1/web/message?text=Oscam%20läuft%20nicht,\n%20bitte%20Oscam%20erst%20starten.&type=1&timeout=10'
+		exit
+	fi
 	curl -s -o /tmp/webif --digest -u $user:$pass "http://127.0.0.1:"$port"/entitlements.html?label="$label
 	sed -n "/<TR CLASS=\"e_valid\">/,/<\/TABLE>/p" /tmp/webif > /tmp/webif1
 	if [[ $(stat -c %s /tmp/webif1) == "0" ]]; then
