@@ -2,7 +2,7 @@
 # created by Lizard
 SERIALFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/serial"
 TIMEOUTFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/timeout"
-checkoscamrun=0
+checkoscamrun=1
 if [[ $checkoscamrun == 1 ]]; then
 	oscamversion=$(find -L /tmp -name "oscam.version" 2>/dev/null)
 	oscampid=$(grep "PID:" $oscamversion|awk '{ print $2 }')
