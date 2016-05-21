@@ -19,7 +19,7 @@ config.plugins.emmlog = ConfigSubsection()
 config.plugins.emmlog.serial = ConfigText('XXXXXXXX', fixed_size=False)
 config.plugins.emmlog.emmlog_timeout = ConfigInteger(10, limits=(1, 180))
 config.plugins.emmlog.popup = ConfigYesNo(default=False)
-config.plugins.emmlog.oscamlabel = ConfigText('SKYV14', fixed_size=False)
+config.plugins.emmlog.oscamlabel = ConfigText('skyV14', fixed_size=False)
 system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/log.sh')
 system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/logstatus.sh')
 system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh')
@@ -27,30 +27,30 @@ if ( not os.path.isfile('/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscam
     system('echo ' + config.plugins.emmlog.oscamlabel.value + ' > /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscamlabel')
 
 class emmlog(ConfigListScreen, Screen):
-    skin = """<screen position="100,100" size="560,360" title="EMMLog (v1.7)" >
-	<widget name="text" position="5,50" zPosition="2" size="520,60" font="Regular;20" />
-	<ePixmap pixmap="skin_default/buttons/red.png" position="0,0" size="140,40" alphatest="on" />
-	<ePixmap pixmap="skin_default/buttons/green.png" position="140,0" size="140,40" alphatest="on" />
-	<ePixmap pixmap="skin_default/buttons/yellow.png" position="280,0" size="140,40" alphatest="on" />
-	<ePixmap pixmap="skin_default/buttons/blue.png" position="420,0" size="140,40" alphatest="on" />
-	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_ok.png" position="5,230" size="140,40" alphatest="on" />
-	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_info.png" position="5,270" size="140,40" alphatest="on" />
-	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_menu.png" position="5,310" size="140,40" alphatest="on" />
-	<widget name="key_red" position="0,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
-	<widget name="key_green" position="140,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
-	<widget name="key_yellow" position="280,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
-	<widget name="key_blue" position="420,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
-	<widget name="config" position="20,120" size="520,240" scrollbarMode="showOnDemand" />
-	<widget name="key_ok" position="32,220" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
-	<widget name="key_1" position="32,260" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
-	<widget name="key_2" position="32,300" zPosition="1" size="200,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
+    skin = """<screen position="100,100" size="660,380" title="EMMLog (v1.8)" >
+	<widget name="text" position="5,50" zPosition="2" size="655,60" font="Regular;20" />
+	<ePixmap pixmap="skin_default/buttons/red.png" position="50,0" size="140,40" alphatest="on" />
+	<ePixmap pixmap="skin_default/buttons/green.png" position="190,0" size="140,40" alphatest="on" />
+	<ePixmap pixmap="skin_default/buttons/yellow.png" position="330,0" size="140,40" alphatest="on" />
+	<ePixmap pixmap="skin_default/buttons/blue.png" position="470,0" size="140,40" alphatest="on" />
+	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_ok.png" position="5,250" size="140,40" alphatest="on" />
+	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_info.png" position="5,290" size="140,40" alphatest="on" />
+	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_menu.png" position="5,330" size="140,40" alphatest="on" />
+	<widget name="key_red" position="50,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
+	<widget name="key_green" position="190,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
+	<widget name="key_yellow" position="330,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
+	<widget name="key_blue" position="470,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
+	<widget name="config" position="20,120" size="620,260" scrollbarMode="showOnDemand" />
+	<widget name="key_ok" position="32,240" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
+	<widget name="key_1" position="32,280" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
+	<widget name="key_2" position="32,320" zPosition="1" size="200,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
 	</screen>"""
 
 
     def __init__(self, session, args = None):
         self.skin = emmlog.skin
         Screen.__init__(self, session)
-        info = 'Bei der eingabe der Serial auf das \nrichtige Format achten. XXXXXXXX'
+        info = 'Bei der eingabe der Serial auf das richtige Format achten. XXXXXXXX \nBei der Eingabe des OSCam label auf gross und Keinschreibung achten'
         self['text'] = Label(info)
         self.list = []
         self.list.append(getConfigListEntry(_('Card Serial'), config.plugins.emmlog.serial))
