@@ -23,6 +23,7 @@ config.plugins.emmlog.oscamlabel = ConfigText('skyV14', fixed_size=False)
 system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/log.sh')
 system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/logstatus.sh')
 system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh')
+system('/bin/chmod +x /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/deletelog.sh')
 if ( not os.path.isfile('/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscamlabel')):
     system('echo ' + config.plugins.emmlog.oscamlabel.value + ' > /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscamlabel')
 
