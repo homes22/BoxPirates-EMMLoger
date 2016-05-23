@@ -205,7 +205,7 @@ class emmlogmanagement(Screen):
 			
 class reademm(Screen):
 
-    skin ="""<screen name="reademm" position="center,center" size="1160,600" title="CR-Feed-CCcam-Download"  flags="wfNoBorder" >
+    skin ="""<screen name="reademm" position="center,center" size="1160,600" title="read EMM"  >
 	<widget name="list" position="20,20" size="1120,450" scrollbarMode="showOnDemand" transparent="1" zPosition="2" font="Regular;17"/>
 	<widget name="key_blue" position="553,522" size="140,40" halign="center" valign="center" font="Regular;19" backgroundColor="#9f1313" transparent="1" />
 	<ePixmap pixmap="skin_default/buttons/blue.png" position="550,520" size="140,40" zPosition="-1" alphatest="on" />
