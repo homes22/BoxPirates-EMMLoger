@@ -28,30 +28,65 @@ if ( not os.path.isfile('/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscam
     system('echo ' + config.plugins.emmlog.oscamlabel.value + ' > /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscamlabel')
 
 class emmlog(ConfigListScreen, Screen):
-    skin = """<screen position="100,100" size="660,460" title="EMMLog (v1.8)" >
-	<widget name="text" position="5,50" zPosition="2" size="655,60" font="Regular;20" />
-	<ePixmap pixmap="skin_default/buttons/red.png" position="50,0" size="140,40" alphatest="on" />
-	<ePixmap pixmap="skin_default/buttons/green.png" position="190,0" size="140,40" alphatest="on" />
-	<ePixmap pixmap="skin_default/buttons/yellow.png" position="330,0" size="140,40" alphatest="on" />
-	<ePixmap pixmap="skin_default/buttons/blue.png" position="470,0" size="140,40" alphatest="on" />
-	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_ok.png" position="40,250" size="140,40" alphatest="on" />
-	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_info.png" position="10,290" size="140,40" alphatest="on" />
-	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_menu.png" position="10,350" size="140,40" alphatest="on" />
-	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_help.png" position="10,410" size="140,40" alphatest="on" />
-	<widget name="key_red" position="50,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
-	<widget name="key_green" position="190,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
-	<widget name="key_yellow" position="330,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
-	<widget name="key_blue" position="470,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
-	<widget name="config" position="20,120" size="620,260" scrollbarMode="showOnDemand" />
-	<widget name="key_ok" position="110,243" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
-	<widget name="key_info" position="100,290" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
-	<widget name="key_menu" position="100,345" zPosition="1" size="200,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
-	<widget name="key_help" position="100,405" zPosition="1" size="200,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
+    skin = """<screen position="center,center" size="660,180" title="EMMLog (v1.9)" >
+	<ePixmap pixmap="skin_default/buttons/red.png" position="50,120" size="140,40" alphatest="on" />
+	<ePixmap pixmap="skin_default/buttons/green.png" position="190,120" size="140,40" alphatest="on" />
+	<ePixmap pixmap="skin_default/buttons/yellow.png" position="330,120" size="140,40" alphatest="on" />
+	<ePixmap pixmap="skin_default/buttons/blue.png" position="470,120" size="140,40" alphatest="on" />
+	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_menu.png" position="10,20" size="140,40" alphatest="on" />
+	<widget name="key_red" position="50,120" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
+	<widget name="key_green" position="190,120" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
+	<widget name="key_yellow" position="330,120" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
+	<widget name="key_blue" position="470,120" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
+	<widget name="key_menu" position="50,20" zPosition="1" size="200,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
 	</screen>"""
 
 
     def __init__(self, session, args = None):
         self.skin = emmlog.skin
+        Screen.__init__(self, session)
+        self['key_red'] = Button(_('cancel'))		
+        self['key_green'] = Button(_('EMMLog'))
+        self['key_yellow'] = Button(_('expired date'))
+        self['key_blue'] = Button(_('write EMM'))
+        self['key_menu'] = Button(_('logconfig'))
+        self['setupActions'] = ActionMap(['SetupActions', 'ColorActions', 'NumberActions', 'HelpActions'], {'green': self.emmlogmanagement,
+         'red': self.cancel,
+         'yellow': self.readexpireddate,
+         'blue': self.readsemm,
+		 'cancel': self.cancel,
+         'menu': self.configscreen}, -2)
+
+    def cancel(self):
+        self.close(None)
+
+    def emmlogmanagement (self):
+        self.session.open(emmlogmanagement)
+	
+    def configscreen (self):
+        self.session.open(configscreen)
+		
+    def readsemm (self):
+        self.session.open(reademm)
+		
+    def readexpireddate (self):
+        self.session.open(Console, _('Expire Date:'), ['echo "Expire Date" && /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh expire'])
+
+        	
+ 		
+class configscreen(ConfigListScreen, Screen):
+    skin = """<screen position="center,center" size="660,300" title="EMMLog config" >
+	<widget name="text" position="5,20" zPosition="2" size="655,60" font="Regular;20" />
+	<ePixmap pixmap="skin_default/buttons/yellow.png" position="190,250" size="140,40" alphatest="on" />
+	<ePixmap pixmap="skin_default/buttons/green.png" position="330,250" size="140,40" alphatest="on" />
+	<widget name="key_yellow" position="190,250" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
+	<widget name="key_green" position="330,250" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
+	<widget name="config" position="20,110" size="620,260" scrollbarMode="showOnDemand" />
+	</screen>"""
+
+
+    def __init__(self, session, args = None):
+        self.skin = configscreen.skin
         Screen.__init__(self, session)
         info = 'Bei der Eingabe der Serial auf das richtige Format achten. XXXXXXXX \nBei der Eingabe des OSCam label auf Gross und Keinschreibung achten.'
         self['text'] = Label(info)
@@ -61,24 +96,11 @@ class emmlog(ConfigListScreen, Screen):
         self.list.append(getConfigListEntry(_('EMM-Popup anzeigen'), config.plugins.emmlog.popup))
         self.list.append(getConfigListEntry(_('OSCam reader Label'), config.plugins.emmlog.oscamlabel))
         ConfigListScreen.__init__(self, self.list)
-        self['key_red'] = Button(_('cancel'))		
+        self['key_yellow'] = Button(_('Load defaults'))		
         self['key_green'] = Button(_('Save Config'))
-        self['key_yellow'] = Button(_('Stop Log'))
-        self['key_blue'] = Button(_('Start Log'))
-        self['key_ok'] = Button(_('Load defaults'))
-        self['key_info'] = Button(_('Write EMM'))
-        self['key_menu'] = Button(_('show expired date'))
-        self['key_help'] = Button(_('delete unique_log'))		
         self['setupActions'] = ActionMap(['SetupActions', 'ColorActions', 'NumberActions', 'HelpActions'], {'green': self.save,
-         'red': self.cancel,
-         'yellow': self.stoplog,
-         'blue': self.startlog,
-		 'save': self.save,
-         'cancel': self.cancel,
-         'ok': self.defaults,
-         'info': self.readsemm,
-         'displayHelp': self.msgdeletelog,		 
-         'menu': self.readexpireddate}, -2)
+         'yellow': self.defaults,
+         'cancel': self.cancel}, -2)
 
     def save(self):
         for x in self['config'].list:
@@ -110,8 +132,37 @@ class emmlog(ConfigListScreen, Screen):
         for x in self['config'].list:
             x[1].save()
 
-        self.close(True)		
+        self.close(True)
+
 		
+class emmlogmanagement(Screen):
+    skin = """<screen position="center,center" size="660,80" title="EMMLog Management" >
+	<ePixmap pixmap="skin_default/buttons/red.png" position="50,20" size="140,40" alphatest="on" />
+	<ePixmap pixmap="skin_default/buttons/green.png" position="190,20" size="140,40" alphatest="on" />
+	<ePixmap pixmap="skin_default/buttons/yellow.png" position="330,20" size="140,40" alphatest="on" />
+	<ePixmap pixmap="skin_default/buttons/blue.png" position="470,20" size="140,40" alphatest="on" />
+	<widget name="key_red" position="50,20" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
+	<widget name="key_green" position="190,20" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
+	<widget name="key_yellow" position="330,20" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
+	<widget name="key_blue" position="470,20" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
+	</screen>"""
+
+
+    def __init__(self, session, args = None):
+        self.skin = emmlogmanagement.skin
+        Screen.__init__(self, session)
+        info = 'Bei der Eingabe der Serial auf das richtige Format achten. XXXXXXXX \nBei der Eingabe des OSCam label auf Gross und Keinschreibung achten.'
+        self['text'] = Label(info)
+        self['key_red'] = Button(_('cancel'))
+        self['key_green'] = Button(_('Clear Logfile'))		
+        self['key_yellow'] = Button(_('Stop Log'))
+        self['key_blue'] = Button(_('Start Log'))
+        self['setupActions'] = ActionMap(['SetupActions', 'ColorActions', 'NumberActions', 'HelpActions'], {'green': self.msgdeletelog,
+         'red': self.cancel,
+         'yellow': self.stoplog,
+         'blue': self.startlog,
+		 'cancel': self.cancel}, -2)
+
     def startlog(self):
         timeout = str(config.plugins.emmlog.emmlog_timeout.value*60)
         popup = str(config.plugins.emmlog.popup.value)
@@ -131,19 +182,14 @@ class emmlog(ConfigListScreen, Screen):
 	
     def stoplog(self):
 		self.session.open(Console, _('EmmLog:'), ['echo "Log beendet" && pkill -9 dvbsnoop && pkill -9 sleep && pkill -9 log.sh'])
-	
-    def readsemm (self):
-        self.session.open(reademm)
-		
-    def readexpireddate (self):
-        self.session.open(Console, _('Expire Date:'), ['echo "Expire Date" && /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh expire'])
 
-    def msgdeletelog (self):
-        self.session.openWithCallback(self.deletelog, MessageBox, _("Willst du die Logdatei wirklich loeschen??"), MessageBox.TYPE_YESNO)
 
     def cancel(self):
         print "\n[deletelog] cancel\n"
         self.close(None)
+
+    def msgdeletelog (self):
+        self.session.openWithCallback(self.deletelog, MessageBox, _("Willst du die Logdatei bereinigen loeschen??"), MessageBox.TYPE_YESNO)
 
     def deletelog (self, result):
         print "\n[deletelog] checking result\n"
@@ -155,9 +201,8 @@ class emmlog(ConfigListScreen, Screen):
                 pass		    
         else:
             print "\n[deletelog] OK pressed\n"
-            self.close(None)        	
- 		
-	
+            self.close(None)
+			
 class reademm(Screen):
 
     skin ="""<screen name="reademm" position="center,center" size="1160,600" title="CR-Feed-CCcam-Download"  flags="wfNoBorder" >
