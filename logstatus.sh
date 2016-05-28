@@ -1,16 +1,19 @@
 #!/bin/sh
 # created by Lizard
 SERIALFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/serial"
+SERIALFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/serial"
 TIMEOUTFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/timeout"
 oscamversion=$(find -L /tmp -name "oscam.version" 2>/dev/null)
 oscamconfpath=$(grep "ConfigDir:" $oscamversion|awk '{ print $2 }')
 oscampid=$(grep "PID:" $oscamversion|awk '{ print $2 }')
 label=$(cat /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscamlabel)
-echo "... bitte warten, überprüfe Label"
+
 if [[ ! -e /proc/$oscampid ]]; then
 	wget -O /dev/null -q 'http://127.0.0.1/web/message?text=Oscam%20läuft%20nicht,\n%20bitte%20Oscam%20erst%20starten.&type=1&timeout=10'
+	echo "Oscam läuft nicht,\nbitte Oscam erst starten.\n"
 	exit
 fi
+echo "... bitte warten, überprüfe Label"
 if [[ $oscamconfpath == "" ]]; then
 	oscamconfpath=$(find /usr -name "oscam.conf" 2>/dev/null|xargs dirname 2>/dev/null)
 fi
@@ -40,4 +43,3 @@ if [ $(ps -ef|grep -v grep|grep -c 'dvbsnoop') -lt 1 ]; then
 	nohup /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/log.sh >output 2>&1 &
 	echo "Log EMM wurde gestartet, Laufzeit "$(cat $TIMEOUTFILE)" Sekunden und wird mit Serial "$(cat $SERIALFILE)" geloggt.\n"
 fi
-
