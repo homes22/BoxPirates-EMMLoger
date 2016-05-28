@@ -46,7 +46,7 @@ do
 		timenow=$(date +%s)
 	done
 	egrep -v '^\s*$|^#' /tmp/bp-emm-tmp.log | tr -d " " | tr a-z A-Z | awk 'BEGIN { FIELDWIDTHS = "8 8 3000" } "^8270..41" {now=strftime("%Y/%m/%d %H:%M:%S"); printf "%s   %s00000000   %s%s%s bp-emmlog\n", now, $2, $1, $2, $3}' >> $logfile
-	if [ $a -gt 0 ] && [ $p == "True" ]; then
+	if [ $a -gt 0 ] && [ $p == "True" ] && [ $(stat -c %s /tmp/bp-emm-tmp.log) != 0 ]; then
 		lastlog=$(tail -n 1 $logfile)
 		emm=${lastlog:41:6}
 		wget -O /dev/null -q 'http://127.0.0.1/web/message?text=Ein%20EMM%20wurde%20geloggt\n'$emm'...&type=1&timeout=5'
