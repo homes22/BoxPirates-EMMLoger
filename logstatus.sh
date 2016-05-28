@@ -2,14 +2,33 @@
 # created by Lizard
 SERIALFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/serial"
 TIMEOUTFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/timeout"
-checkoscamrun=1
-if [[ $checkoscamrun == 1 ]]; then
-	oscamversion=$(find -L /tmp -name "oscam.version" 2>/dev/null)
-	oscampid=$(grep "PID:" $oscamversion|awk '{ print $2 }')
-	if [[ ! -e /proc/$oscampid ]]; then
-		wget -O /dev/null -q 'http://127.0.0.1/web/message?text=Oscam%20läuft%20nicht,\n%20bitte%20Oscam%20erst%20starten.&type=1&timeout=10'
-		exit
+oscamversion=$(find -L /tmp -name "oscam.version" 2>/dev/null)
+oscamconfpath=$(grep "ConfigDir:" $oscamversion|awk '{ print $2 }')
+oscampid=$(grep "PID:" $oscamversion|awk '{ print $2 }')
+if [[ ! -e /proc/$oscampid ]]; then
+	wget -O /dev/null -q 'http://127.0.0.1/web/message?text=Oscam%20läuft%20nicht,\n%20bitte%20Oscam%20erst%20starten.&type=1&timeout=10'
+	exit
+fi
+if [[ $oscamconfpath == "" ]]; then
+	oscamconfpath=$(find /usr -name "oscam.conf" 2>/dev/null|xargs dirname 2>/dev/null)
+fi
+if [[ $oscamconfpath == "" ]]; then
+	oscamconfpath=$(find /var -name "oscam.conf" 2>/dev/null|xargs dirname 2>/dev/null)
+fi
+if [[ $oscamconfpath == "" ]]; then
+	oscamconfpath=$(find /etc -name "oscam.conf" 2>/dev/null|xargs dirname 2>/dev/null)
+fi
+count=0
+while read line
+do
+	if [[ $(echo $line|grep "label"|awk '{ print $3 }') == $label ]]; then
+		count=1
+		break
 	fi
+done < $oscamconfpath/oscam.server
+if [[ $count == 0 ]]; then 
+   	nohup wget -O /dev/null -q 'http://127.0.0.1/web/message?text=Angegebenes%20Label%20existiert%20nicht%20in%20der%20Oscam-Konfig.\nBitte%20Label%20überprüfen.&type=3&timeout=15' >output 2>&1 &
+	exit
 fi
 if [ $(ps -ef|grep -v grep|grep -c 'dvbsnoop') -gt 0 ]; then
 	echo "Log EMM läuft schon.\n"
