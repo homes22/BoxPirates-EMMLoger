@@ -1,7 +1,6 @@
 #!/bin/sh
 # created by Lizard
 SERIALFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/serial"
-SERIALFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/serial"
 TIMEOUTFILE="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/timeout"
 oscamversion=$(find -L /tmp -name "oscam.version" 2>/dev/null)
 oscamconfpath=$(grep "ConfigDir:" $oscamversion|awk '{ print $2 }')
