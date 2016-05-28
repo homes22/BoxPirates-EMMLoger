@@ -28,7 +28,7 @@ if ( not os.path.isfile('/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscam
     system('echo ' + config.plugins.emmlog.oscamlabel.value + ' > /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscamlabel')
 
 class emmlog(ConfigListScreen, Screen):
-    skin = """<screen position="center,center" size="660,180" title="EMMLog (v1.9)" >
+    skin = """<screen position="center,center" size="660,180" title="EMMLog (v1.10)" >
 	<ePixmap pixmap="skin_default/buttons/red.png" position="50,120" size="140,40" alphatest="on" />
 	<ePixmap pixmap="skin_default/buttons/green.png" position="190,120" size="140,40" alphatest="on" />
 	<ePixmap pixmap="skin_default/buttons/yellow.png" position="330,120" size="140,40" alphatest="on" />
