@@ -1,3 +1,5 @@
+#!/usr/bin/python
+#-*- coding:utf-8 -*-
 from Plugins.Plugin import PluginDescriptor
 import subprocess
 import os
@@ -47,13 +49,13 @@ class emmlog(ConfigListScreen, Screen):
         Screen.__init__(self, session)
         self['key_red'] = Button(_('cancel'))		
         self['key_green'] = Button(_('EMMLog'))
-        self['key_yellow'] = Button(_('expired date'))
+        self['key_yellow'] = Button(_('Expire Date'))
         self['key_blue'] = Button(_('write EMM'))
         self['key_menu'] = Button(_('logconfig'))
         self['setupActions'] = ActionMap(['SetupActions', 'ColorActions', 'NumberActions', 'HelpActions'], {'green': self.emmlogmanagement,
          'red': self.cancel,
          'yellow': self.readexpireddate,
-         'blue': self.readsemm,
+         'blue': self.emmread,
 		 'cancel': self.cancel,
          'menu': self.configscreen}, -2)
 
@@ -66,7 +68,7 @@ class emmlog(ConfigListScreen, Screen):
     def configscreen (self):
         self.session.open(configscreen)
 		
-    def readsemm (self):
+    def emmread (self):
         self.session.open(reademm)
 		
     def readexpireddate (self):
@@ -88,7 +90,7 @@ class configscreen(ConfigListScreen, Screen):
     def __init__(self, session, args = None):
         self.skin = configscreen.skin
         Screen.__init__(self, session)
-        info = 'Bei der Eingabe der Serial auf das richtige Format achten. XXXXXXXX \nBei der Eingabe des OSCam label auf Gross und Keinschreibung achten.'
+        info = 'Bei der Eingabe der Serial auf das richtige Format achten. XXXXXXXX \nBei der Eingabe des OSCam label auf Groß und Keinschreibung achten.'
         self['text'] = Label(info)
         self.list = []
         self.list.append(getConfigListEntry(_('Card Serial'), config.plugins.emmlog.serial))
