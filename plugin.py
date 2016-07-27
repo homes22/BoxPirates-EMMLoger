@@ -30,8 +30,6 @@ if ( not os.path.isfile('/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscam
     system('echo ' + config.plugins.emmlog.oscamlabel.value + ' > /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscamlabel')
 
 class emmlog(ConfigListScreen, Screen):
-    skin = """<screen position="center,center" size="330,250" title="BoxPirates-EmmLog" >
-    <widget name="emmlog" position="10,10" size="310,230" scrollbarMode="showOnDemand" />
     </screen>"""
 
     def __init__(self, session, args = 0):
