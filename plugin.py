@@ -30,52 +30,47 @@ if ( not os.path.isfile('/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscam
     system('echo ' + config.plugins.emmlog.oscamlabel.value + ' > /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/oscamlabel')
 
 class emmlog(ConfigListScreen, Screen):
-    skin = """<screen position="center,center" size="660,180" title="EMMLog (v1.10)" >
-	<ePixmap pixmap="skin_default/buttons/red.png" position="50,120" size="140,40" alphatest="on" />
-	<ePixmap pixmap="skin_default/buttons/green.png" position="190,120" size="140,40" alphatest="on" />
-	<ePixmap pixmap="skin_default/buttons/yellow.png" position="330,120" size="140,40" alphatest="on" />
-	<ePixmap pixmap="skin_default/buttons/blue.png" position="470,120" size="140,40" alphatest="on" />
-	<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/EMMLog/images/key_menu.png" position="10,20" size="140,40" alphatest="on" />
-	<widget name="key_red" position="50,120" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
-	<widget name="key_green" position="190,120" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
-	<widget name="key_yellow" position="330,120" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
-	<widget name="key_blue" position="470,120" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
-	<widget name="key_menu" position="50,20" zPosition="1" size="200,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
-	</screen>"""
+    skin = """<screen position="center,center" size="330,250" title="BoxPirates-EmmLog" >
+    <widget name="emmlog" position="10,10" size="310,230" scrollbarMode="showOnDemand" />
+    </screen>"""
 
-
-    def __init__(self, session, args = None):
-        self.skin = emmlog.skin
+    def __init__(self, session, args = 0):
+        self.session = session
+		
+        list = []
+        list.append((_("Log Config"), "configscreen"))
+        list.append((_("Emm Log"), "emmlogmanagement"))
+        list.append((_("EMM read and write"), "emmread"))
+        list.append((_("Expire Date"), "expiredate"))
+		
         Screen.__init__(self, session)
-        self['key_red'] = Button(_('cancel'))		
-        self['key_green'] = Button(_('EMMLog'))
-        self['key_yellow'] = Button(_('Expire Date'))
-        self['key_blue'] = Button(_('write EMM'))
-        self['key_menu'] = Button(_('logconfig'))
-        self['setupActions'] = ActionMap(['SetupActions', 'ColorActions', 'NumberActions', 'HelpActions'], {'green': self.emmlogmanagement,
-         'red': self.cancel,
-         'yellow': self.readexpireddate,
-         'blue': self.emmread,
-		 'cancel': self.cancel,
-         'menu': self.configscreen}, -2)
+        self["emmlog"] = MenuList(list)
+        self["myActionMap"] = ActionMap(["SetupActions"],
+        {
+            "ok": self.go,
+            "cancel": self.cancel
+        }, -1)
 
+    def go(self):
+        returnValue = self["emmlog"].l.getCurrentSelection()[1]
+        print "\n[emmlog] returnValue: " + returnValue + "\n"
+		
+        if returnValue is not None:
+            if returnValue is "configscreen":
+                self.session.open(configscreen)
+				
+            elif returnValue is "emmlogmanagement":
+                self.session.open(emmlogmanagement)
+					
+            elif returnValue is "emmread":
+                self.session.open(reademm)
+
+            else:
+                self.session.open(Console, _('Expire Date:'), ['echo "Expire Date" && /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh expire'])
+	
     def cancel(self):
         self.close(None)
-
-    def emmlogmanagement (self):
-        self.session.open(emmlogmanagement)
-	
-    def configscreen (self):
-        self.session.open(configscreen)
 		
-    def emmread (self):
-        self.session.open(reademm)
-		
-    def readexpireddate (self):
-        self.session.open(Console, _('Expire Date:'), ['echo "Expire Date" && /usr/lib/enigma2/python/Plugins/Extensions/EMMLog/writeemm.sh expire'])
-
-        	
- 		
 class configscreen(ConfigListScreen, Screen):
     skin = """<screen position="center,center" size="660,300" title="EMMLog config" >
 	<widget name="text" position="5,20" zPosition="2" size="655,60" font="Regular;20" />
@@ -295,5 +290,5 @@ def main(session, **kwargs):
 
 
 def Plugins(**kwargs):
-    return [PluginDescriptor(name='BoxPirates-EmmLog', description=_('EmmLoggen for serial'), where=PluginDescriptor.WHERE_PLUGINMENU, fnc=main, icon='plugin.png')]
+    return [PluginDescriptor(name='BoxPirates-EmmLog', description=_('EmmLog for serial'), where=PluginDescriptor.WHERE_PLUGINMENU, fnc=main, icon='plugin.png')]
 
